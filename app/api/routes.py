@@ -1,8 +1,10 @@
 from io import BytesIO
 
 from fastapi import APIRouter, UploadFile, File, Form, Depends
+from sqlalchemy.testing.suite.test_reflection import users
+
 from app.db.database import SessionLocal
-from app.models.client import clients
+from app.models.User import User
 from app.services.s3_service import upload_to_s3
 from app.services.resume_parser import extract_text_from_pdf
 from app.services.ats_scoring import calculate_ats_score
@@ -34,7 +36,7 @@ async def upload_resume(
     score = calculate_ats_score(resume_text, job_description)
 
     # Save client details in DB
-    session.execute(clients.insert().values(name=name, email=email, location=location))
+    session.execute(users.insert().values(name=name, email=email))
     session.commit()
     session.close()
 
