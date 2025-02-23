@@ -48,7 +48,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         max_age=3600,  # Access token expires in 1 hour
         expires=getUtcDate()  # UTC-aware datetime
     )
-    return JSONResponse(content={"message": "Login successful"})
+    return JSONResponse(content={"message": access_token})
 
 
 @auth_router.get("/users/me")
